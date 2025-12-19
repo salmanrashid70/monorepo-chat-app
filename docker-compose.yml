@@ -18,11 +18,23 @@ services:
     container_name: chatapp-phpmyadmin
     env_file:
       - services/auth-service/.env
-      
+
     environment:
       PMA_HOST: auth-db
     ports:
       - "8080:80"
+    networks:
+      - chatapp-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: chatapp-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     networks:
       - chatapp-network
 

@@ -1,0 +1,15 @@
+export const DI_TOKENS = {
+    UserRepository: 'UserRepository',
+    RefreshTokenRepository: 'RefreshTokenRepository',
+    PasswordService: 'PasswordService',
+    TokenService: 'TokenService',
+    MessageBroker: 'MessageBroker',
+    Logger: 'Logger',
+    RefreshTokenService: 'RefreshTokenService',
+    AuthController: 'AuthController',
+    SignUpUseCase: 'SignUpUseCase',
+    LoginUseCase: 'LoginUseCase',
+    RefreshTokenUseCase: 'RefreshTokenUseCase',
+    IUserRepository: 'IUserRepository',
+    JwtTokenService: 'JwtTokenService',
+};
