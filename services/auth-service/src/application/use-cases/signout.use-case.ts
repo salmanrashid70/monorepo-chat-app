@@ -21,7 +21,6 @@ export class SignOutUseCase {
             // Verify token to get tokenId (ignoring expiration if we just want to revoke it, 
             // but for security we usually only revoke valid-ish tokens. 
             // However, if it's expired, it might already be gone or we just want to ensure it's gone.)
-            // We'll wrap in try-catch because verify might throw if expired/invalid
             const payload = this.tokenService.verifyRefreshToken(refreshToken);
 
             if (payload && payload.tokenId) {
