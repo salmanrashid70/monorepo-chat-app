@@ -12,4 +12,5 @@ export const DI_TOKENS = {
     RefreshTokenUseCase: 'RefreshTokenUseCase',
     IUserRepository: 'IUserRepository',
     JwtTokenService: 'JwtTokenService',
+    SignOutUseCase: 'SignOutUseCase',
 };

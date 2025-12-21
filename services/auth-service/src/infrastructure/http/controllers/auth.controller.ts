@@ -8,13 +8,15 @@ import { SignUpDTO, LoginDTO, RefreshTokenDTO } from '../../../application/dtos/
 import { env } from '../../../main/config/env';
 import { DI_TOKENS } from '@/main/di/tokens';
 import { RefreshTokenUseCase } from '@/application/use-cases/refresh-token.use-case';
+import { SignOutUseCase } from '@/application/use-cases/signout.use-case';
 
 @injectable()
 export class AuthController {
     constructor(
         @inject(DI_TOKENS.SignUpUseCase) private readonly signUpUseCase: SignUpUseCase,
         @inject(DI_TOKENS.LoginUseCase) private readonly loginUseCase: LoginUseCase,
-        @inject(DI_TOKENS.RefreshTokenUseCase) private readonly refreshTokenUseCase: RefreshTokenUseCase
+        @inject(DI_TOKENS.RefreshTokenUseCase) private readonly refreshTokenUseCase: RefreshTokenUseCase,
+        @inject(DI_TOKENS.SignOutUseCase) private readonly signOutUseCase: SignOutUseCase
     ) { }
 
     async signUp(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -29,7 +31,7 @@ export class AuthController {
         }
     }
 
-    async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async signIn(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const dto: LoginDTO = req.body;
             const result = await this.loginUseCase.execute(dto);
@@ -40,6 +42,8 @@ export class AuthController {
             next(error);
         }
     }
+
+
 
     async refreshToken(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
@@ -56,6 +60,21 @@ export class AuthController {
 
             this.setCookies(res, result.accessToken, result.refreshToken);
             res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async signOut(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const refreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
+
+            await this.signOutUseCase.execute(refreshToken);
+
+            res.clearCookie('accessToken');
+            res.clearCookie('refreshToken');
+
+            res.status(200).json({ message: 'Signed out successfully' });
         } catch (error) {
             next(error);
         }

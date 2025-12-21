@@ -13,6 +13,7 @@ import { SequelizeRefreshTokenRepository } from '@/infrastructure/database/repos
 import { DI_TOKENS } from './tokens';
 import { RefreshTokenService } from '@/infrastructure/services/refresh-token.service';
 import { RefreshTokenUseCase } from '@/application/use-cases/refresh-token.use-case';
+import { SignOutUseCase } from '@/application/use-cases/signout.use-case';
 
 export const configureContainer = () => {
     // Infrastructure Services
@@ -38,6 +39,7 @@ export const configureContainer = () => {
     container.register(DI_TOKENS.SignUpUseCase, { useClass: SignUpUseCase });
     container.register(DI_TOKENS.LoginUseCase, { useClass: LoginUseCase });
     container.register(DI_TOKENS.RefreshTokenUseCase, { useClass: RefreshTokenUseCase });
+    container.register(DI_TOKENS.SignOutUseCase, { useClass: SignOutUseCase });
 
     // Controllers
     container.register(DI_TOKENS.AuthController, { useClass: AuthController });
